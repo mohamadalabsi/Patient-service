@@ -48,7 +48,8 @@ public class PatientService {
 
 
 // u can not return it like above because the method return type is List<PatientResponseDTO> and
-// here is a lambda expression so we need to assign it to a variable first
+// here is a lambda expression so we need to assign it to a variable first and when we are done
+// we return it in other words it should not be like this return something = somethingelse
 
 //        return patientsdto ;
 

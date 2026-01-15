@@ -22,14 +22,15 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @RequestMapping("/v1")
+    @RequestMapping("/")
     public String version() {
         return "Patient Service - Version 1.0";
     }
 
     @GetMapping("/patients")
     public ResponseEntity < List<PatientResponseDTO> > getAllPatients(){
-        return new ResponseEntity<>(patientService.getAllPatients() , HttpStatus.OK) ;
+//        return new ResponseEntity<>(patientService.getAllPatients() , HttpStatus.OK) ;
+        return ResponseEntity.ok().body(patientService.getAllPatients());
     }
     @PostMapping("/patients")
     public ResponseEntity < Patient >createPatient(@RequestBody Patient
