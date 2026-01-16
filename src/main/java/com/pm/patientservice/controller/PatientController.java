@@ -37,4 +37,5 @@ public class PatientController {
                                             patient) {
         return  new ResponseEntity<>(patientService.createPatient(patient) , HttpStatus.CREATED)  ;
     }
+//     taking a day rest from the project due to exams
 }
