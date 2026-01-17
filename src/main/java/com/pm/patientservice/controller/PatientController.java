@@ -1,9 +1,11 @@
 package com.pm.patientservice.controller;
 
 
+import com.pm.patientservice.dto.PatientRequestDTO;
 import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.model.Patient;
 import com.pm.patientservice.service.PatientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +34,11 @@ public class PatientController {
 //        return new ResponseEntity<>(patientService.getAllPatients() , HttpStatus.OK) ;
         return ResponseEntity.ok().body(patientService.getAllPatients());
     }
-    @PostMapping("/patients")
-    public ResponseEntity < Patient >createPatient(@RequestBody Patient
-                                            patient) {
-        return  new ResponseEntity<>(patientService.createPatient(patient) , HttpStatus.CREATED)  ;
+    @PostMapping("/patients")                         // this  annotation is used to reform the
+    // validation on our PatientRequestDTO to make sure all the properties match the validation annotations
+    // rules we added there in the PatientRequestDTO object
+    public ResponseEntity <PatientResponseDTO>createPatient(@Valid @RequestBody PatientRequestDTO
+                                            patientRequestDTO) {
+        return  new ResponseEntity<>(patientService.createPatient(patientRequestDTO) , HttpStatus.CREATED)  ;
     }
-//     taking a day rest from the project due to exams
 }

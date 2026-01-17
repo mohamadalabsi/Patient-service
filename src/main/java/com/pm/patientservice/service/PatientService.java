@@ -1,6 +1,7 @@
 package com.pm.patientservice.service;
 
 
+import com.pm.patientservice.dto.PatientRequestDTO;
 import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
@@ -20,8 +21,15 @@ public class PatientService {
     }
 
 
-    public Patient createPatient(Patient patient) {
-       return patientRepo.save(patient);
+    public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
+//       return patientRepo.save(patientRequestDTO); it expects a Patient entity not a DTO
+          Patient newPatient= patientRepo.save(PatientMapper.toEntity(patientRequestDTO)) ;
+
+          return PatientMapper.toDto(newPatient);
+
+//           in get and post method we use PatientResponseDTO to return the data
+//        no matter what the request from the client they will get PatientResponseDTO
+
     }
 
     public List <PatientResponseDTO> getAllPatients() {

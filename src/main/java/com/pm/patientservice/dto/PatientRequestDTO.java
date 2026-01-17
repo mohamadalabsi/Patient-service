@@ -9,6 +9,7 @@ import lombok.Data;
 public class PatientRequestDTO {
 //     one of the reasons to use dto instead of our entity  is to validate the input data from
 //     the client could be different from the validation that we save in the DB like this
+//    in general we do not use the entity class directly to interact with the client
 
     @NotBlank(message = "Name is mandatory")
     @Size(max = 100, message = "Name must be less than 100 characters")
