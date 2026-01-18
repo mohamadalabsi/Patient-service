@@ -24,7 +24,8 @@ public class Patient {
 
     @NotNull
     @Email
-    @Column(unique = true)
+    @Column(unique = true)// if someone try to register with same email it will be 500 error so
+    // we have to handle it in the service layer
     private String email;
 
     @NotNull
