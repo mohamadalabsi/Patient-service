@@ -41,4 +41,6 @@ public class PatientController {
                                             patientRequestDTO) {
         return  new ResponseEntity<>(patientService.createPatient(patientRequestDTO) , HttpStatus.CREATED)  ;
     }
+//    delete and put
+
 }
