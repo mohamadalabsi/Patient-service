@@ -1,5 +1,6 @@
 package com.pm.patientservice.dto;
 
+import com.pm.patientservice.dto.validators.CreatePatientValidationGroup;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -24,7 +25,8 @@ public class PatientRequestDTO {
     @NotBlank(message = "Birth date is mandatory")
     private String birthDate ;
 
-    @NotBlank(message = "Registration date is mandatory")
+//    we should specify in the controller if we want to validate this field or not
+    @NotBlank(groups = CreatePatientValidationGroup.class, message = "Registration date is mandatory")
     private String registrationDate ;
 
 //    request dto and response dto are different in case we need to change  the data that gets
