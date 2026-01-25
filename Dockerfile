@@ -20,7 +20,9 @@
 #
 #ENTRYPOINT ["java", "-jar", "app.jar"]
 
-FROM openjdk:22-jdk
+#Uses JRE instead of JDK (you don't need compiler at runtime),much smaller ~200MB vs ~800MB
+#FROM openjdk:22-jdk
+FROM eclipse-temurin:21-jre-alpine AS runner
 ADD target/patient-service-0.0.1-SNAPSHOT.jar patient-service-0.0.1-SNAPSHOT.jar
 
 ENTRYPOINT ["java", "-jar","/patient-service-0.0.1-SNAPSHOT.jar"]

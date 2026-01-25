@@ -5,6 +5,7 @@ import com.pm.patientservice.dto.PatientRequestDTO;
 import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.exception.EmailAlreadyExistException;
 import com.pm.patientservice.exception.PatientNotFoundException;
+import com.pm.patientservice.grpc.BillingServiceGrpcClient;
 import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
 import com.pm.patientservice.repository.PatientRepo;
@@ -19,9 +20,11 @@ import java.util.UUID;
 @Service
 public class PatientService {
 
-    private PatientRepo patientRepo;
-    @Autowired
-    public PatientService(PatientRepo patientRepo) {
+    private final PatientRepo patientRepo;
+    private final BillingServiceGrpcClient billingServiceGrpcClient;
+//    @Autowired this is not needed with constructor injection
+    public PatientService(PatientRepo patientRepo , BillingServiceGrpcClient billingServiceGrpcClient) {
+        this.billingServiceGrpcClient = billingServiceGrpcClient;
         this.patientRepo = patientRepo;
     }
 
@@ -34,6 +37,10 @@ public class PatientService {
         }
 //       return patientRepo.save(patientRequestDTO); it expects a Patient entity not a DTO
           Patient newPatient= patientRepo.save(PatientMapper.toEntity(patientRequestDTO)) ;
+
+//        after adding this service as grpc client we can call the billing service from here
+        billingServiceGrpcClient.createBillingAccount(newPatient.getId().toString() ,
+                newPatient.getName().toString() , newPatient.getEmail().toString());
 
           return PatientMapper.toDto(newPatient);
 

@@ -78,6 +78,6 @@ public class PatientController {
 //    this allows developers and if third party want to use our api they can see the docs
 //     so open api and swagger is  a tool and standard for designing and interacting with api
 
-//    next step is dockerizing this service and creating GRPC and understand how microservices communicate
+
 
 }
