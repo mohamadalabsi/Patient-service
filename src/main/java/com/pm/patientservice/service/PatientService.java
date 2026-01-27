@@ -6,11 +6,13 @@ import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.exception.EmailAlreadyExistException;
 import com.pm.patientservice.exception.PatientNotFoundException;
 import com.pm.patientservice.grpc.BillingServiceGrpcClient;
+import com.pm.patientservice.kafka.KafkaProducer;
 import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
 import com.pm.patientservice.repository.PatientRepo;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,10 +24,15 @@ public class PatientService {
 
     private final PatientRepo patientRepo;
     private final BillingServiceGrpcClient billingServiceGrpcClient;
-//    @Autowired this is not needed with constructor injection
-    public PatientService(PatientRepo patientRepo , BillingServiceGrpcClient billingServiceGrpcClient) {
+    private final KafkaTemplate<String, byte[]> kafkaTemplate;
+    private final KafkaProducer kafkaProducer;
+
+    //    @Autowired this is not needed with constructor injection
+    public PatientService(PatientRepo patientRepo , BillingServiceGrpcClient billingServiceGrpcClient, KafkaTemplate<String, byte[]> kafkaTemplate, KafkaProducer kafkaProducer) {
         this.billingServiceGrpcClient = billingServiceGrpcClient;
         this.patientRepo = patientRepo;
+        this.kafkaTemplate = kafkaTemplate;
+        this.kafkaProducer = kafkaProducer;
     }
 
 
@@ -41,6 +48,9 @@ public class PatientService {
 //        after adding this service as grpc client we can call the billing service from here
         billingServiceGrpcClient.createBillingAccount(newPatient.getId().toString() ,
                 newPatient.getName().toString() , newPatient.getEmail().toString());
+
+//        now kafka
+        kafkaProducer.sendEvent(newPatient);
 
           return PatientMapper.toDto(newPatient);
 
