@@ -5,8 +5,8 @@ import com.pm.patientservice.dto.PatientRequestDTO;
 import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.dto.validators.CreatePatientValidationGroup;
 import com.pm.patientservice.service.PatientService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.groups.Default;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api/v1")
+//@RequestMapping("/api/v1") this is what i should use to version my api , but i deleted it to
+// keep it simple and for easier access to api gateway
 @RestController
 @Tag(name="Patient", description = "Patient management APIs")
 public class PatientController {
@@ -77,6 +78,8 @@ public class PatientController {
 //    our endpoints to describes what our endpoints (API) do
 //    this allows developers and if third party want to use our api they can see the docs
 //     so open api and swagger is  a tool and standard for designing and interacting with api
+//    after putting these annotations we can access the open api spec at http://localhost:4000/v3/api-docs and then
+//  see  the docs at /swagger-ui.html
 
 
 
